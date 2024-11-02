@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitio Web de Machine Learning</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="tytusjs/dist/tytus.js"></script>
+    <script src="index.js" defer></script>
+    <link href="https://unpkg.com/vis-network/styles/vis-network.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    <h1>Aplicación de Machine Learning</h1>
+
+    <!-- Selección de archivo -->
+    <section>
+        <h2>Cargar archivo CSV o Dataset</h2>
+        <input type="file" id="fileInput" accept=".csv">
+        <button onclick="readCSV()">Cargar Archivo</button>
+    </section>
+
+    <!-- Configuración del modelo y parámetros -->
+    <section>
+        <h2>Configuración del Modelo</h2>
+        <label for="trainTestSplit">Porcentaje de Train/Test:</label>
+        <input type="number" id="trainTestSplit" min="0" max="100" step="10" value="70"> %
+
+        <label for="goal">Objetivo del Entrenamiento:</label>
+        <select id="goal">
+            <option value="trend">Naive Bayes</option>
+            <option value="decitionTree">Árbol de decisión</option>
+            <option value="prediction">Regresión Polinomial</option>
+        </select>
+
+        <div id="polyDegreeField">
+            <label for="polyDegree">Grado de la Regresión Polinomial (si aplica):</label>
+            <input type="number" id="polyDegree" min="1" max="10" value="2">
+            
+            <label for="xRange">Rango para Predicción (si aplica):</label>
+            <input type="text" id="xRange" placeholder="Ejemplo: 1-100">
+  
+            <h3>Selecciona las Variables</h3>
+            <label for="inputVariables">Variables de Entrada:</label>
+            <select id="inputVariables"></select>
+    
+            <label for="outputVariable">Variable de Salida:</label>
+            <select id="outputVariable"></select>
+        </div>
+
+        <div id="decitionTreeField">
+            <label for="infoPrediction">Data a predecir (si aplica DecisionTreeID3):</label>
+            <input type="text" id="infoPrediction" placeholder="High,Long,Yes,No,No">
+
+            <label for="numClasses">Cantidad de Clases (si aplica):</label>
+            <input type="number" id="numClasses" min="2">
+        </div>
+        
+        <div id="naiveField">
+            <button id="naiveBayesButton">Ejecutar Predicción NaiveBayes</button>
+        
+            <!-- Campos de entrada para eventos conocidos -->
+            <div id="knownEventsContainer">
+                <h3>Eventos Conocidos</h3>
+                <label for="clima">Clima:</label>
+                <select id="clima">
+                    <option value="soleado">Soleado</option>
+                    <option value="nublado">Nublado</option>
+                    <option value="lluvioso">Lluvioso</option>
+                </select>
+                
+                <label for="temperatura">Temperatura:</label>
+                <select id="temperatura">
+                    <option value="calor">Calor</option>
+                    <option value="templado">Templado</option>
+                    <option value="frio">Frío</option>
+                </select>
+                
+                <label for="humedad">Humedad:</label>
+                <select id="humedad">
+                    <option value="alta">Alta</option>
+                    <option value="normal">Normal</option>
+                </select>
+                
+                <label for="viento">Viento:</label>
+                <select id="viento">
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label for="juega">Juega:</label>
+                <select id="juega">
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+        </div>
+
+        
+    </section>
+
+    <!-- Botones para operaciones -->
+    <section>
+        <h2>Operaciones</h2>
+        <button id="trainButton" onclick="trainModel()">Entrenar</button>
+        <button id="predictButton" onclick="predictModel()">Predecir</button>
+        <button id="showGraphButton" onclick="displayChart()">Mostrar Gráfica</button>
+    </section>
+
+    <!-- Contenedor para gráfica -->
+    <section>
+        <h2>Gráfica de Resultados</h2>
+        <canvas id="myChart"></canvas>
+        <div id="graphContainer" style="width: 100%; height: 600px;"></div>
+    </section>
+    
+</body>
+</html>
